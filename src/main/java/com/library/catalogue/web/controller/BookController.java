@@ -3,6 +3,7 @@ package com.library.catalogue.web.controller;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.library.catalogue.dto.inbound.AuthorDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
+import com.library.catalogue.dto.inbound.PublicationYearDto;
 import com.library.catalogue.model.Book;
 import com.library.catalogue.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class BookController {
     @GetMapping("/author")
     public ResponseEntity<List<Book>> getBooksByAuthor(@RequestBody AuthorDto authorDto) {
         return bookService.getBooksByAuthor(authorDto);
+    }
+
+    @GetMapping("/publication-year/between")
+    public ResponseEntity<List<Book>> getBooksInPublicationRange(@RequestBody PublicationYearDto publicationYearDto) {
+        return bookService.getBooksInPublicationRange(publicationYearDto);
     }
 
     @PostMapping("/add")

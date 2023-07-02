@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface BookDao extends JpaRepository<Book, Long> {
     List<Book> findByAuthorFirstNameAndAuthorLastName(String authorFirstName, String authorLastName);
+
+    List<Book> findByPublicationYearBetween(Integer fromPublicationYear, Integer toPublicationYear);
 }
