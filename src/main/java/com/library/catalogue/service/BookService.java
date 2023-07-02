@@ -21,7 +21,13 @@ public class BookService {
     }
 
     public ResponseEntity<Long> addBook(Book book) {
-        bookDao.save(book);
-        return new ResponseEntity<>(book.getIsbn(), HttpStatus.CREATED);
+        Long isbn = book.getIsbn();
+
+        if (bookDao.existsById(isbn)) {
+            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
+        } else {
+            bookDao.save(book);
+            return new ResponseEntity<>(isbn, HttpStatus.CREATED);
+        }
     }
 }
