@@ -1,7 +1,7 @@
-package com.library.service;
+package com.library.catalogue.service;
 
-import com.library.dao.BookDao;
-import com.library.model.Book;
+import com.library.catalogue.dao.BookDao;
+import com.library.catalogue.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

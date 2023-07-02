@@ -1,7 +1,7 @@
-package com.library.web.controller;
+package com.library.catalogue.web.controller;
 
-import com.library.model.Book;
-import com.library.service.BookService;
+import com.library.catalogue.model.Book;
+import com.library.catalogue.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

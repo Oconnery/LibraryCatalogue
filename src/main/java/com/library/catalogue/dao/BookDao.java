@@ -1,6 +1,6 @@
-package com.library.dao;
+package com.library.catalogue.dao;
 
-import com.library.model.Book;
+import com.library.catalogue.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
