@@ -1,5 +1,7 @@
 package com.library.catalogue.web.controller;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.model.Book;
 import com.library.catalogue.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,11 @@ public class BookController {
     @PostMapping("/add")
     public ResponseEntity<Long> addBook(@RequestBody Book book) {
         return bookService.addBook(book);
+    }
+    
+    @PatchMapping("/edit")
+    public ResponseEntity<Long> editBook(@RequestBody BookEditDto bookEditDto) throws JsonMappingException {
+        return bookService.editBook(bookEditDto);
     }
 
     @DeleteMapping("/delete/{isbn}")
