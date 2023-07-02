@@ -19,4 +19,15 @@ public class BookService {
         Optional<Book> book = bookDao.findById(ibsn);
         return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new Book(), HttpStatus.NO_CONTENT));
     }
+
+    public ResponseEntity<Long> addBook(Book book) {
+        Long isbn = book.getIsbn();
+
+        if (bookDao.existsById(isbn)) {
+            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
+        } else {
+            bookDao.save(book);
+            return new ResponseEntity<>(isbn, HttpStatus.CREATED);
+        }
+    }
 }
