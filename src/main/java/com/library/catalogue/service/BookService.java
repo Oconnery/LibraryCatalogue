@@ -30,4 +30,13 @@ public class BookService {
             return new ResponseEntity<>(isbn, HttpStatus.CREATED);
         }
     }
+
+    public ResponseEntity<Void> deleteBook(Long isbn) {
+        if (bookDao.existsById(isbn)) {
+            bookDao.deleteById(isbn);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
