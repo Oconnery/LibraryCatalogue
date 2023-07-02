@@ -19,4 +19,9 @@ public class BookService {
         Optional<Book> book = bookDao.findById(ibsn);
         return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new Book(), HttpStatus.NO_CONTENT));
     }
+
+    public ResponseEntity<Long> addBook(Book book) {
+        bookDao.save(book);
+        return new ResponseEntity<>(book.getIsbn(), HttpStatus.CREATED);
+    }
 }
