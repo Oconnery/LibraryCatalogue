@@ -23,9 +23,9 @@ public class BookService {
     @Autowired
     private ObjectMapper dtoToModelMapper;
 
-    public ResponseEntity<Book> getBook(Long ibsn) {
-        Optional<Book> book = bookDao.findById(ibsn);
-        return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new Book(), HttpStatus.NO_CONTENT)); // todo: should update this with orElseThrow and
+    public ResponseEntity<Book> getBook(Long isbn) {
+        Optional<Book> book = bookDao.findById(isbn);
+        return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseThrow(() -> new ResourceNotFoundException("Book not found for this isbn: " + isbn));
     }
 
     public ResponseEntity<Long> addBook(Book book) {
@@ -50,7 +50,7 @@ public class BookService {
 
     public ResponseEntity<Long> editBook(BookEditDto bookEditDto) throws JsonMappingException {
         Long isbn = bookEditDto.getIsbn();
-        Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("Book to edit not found for this isbn: " + isbn));
+        Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("Book not found for this isbn: " + isbn));
         mapBookEditDtoToBook(bookEditDto, book);
         bookDao.save(book);
         return new ResponseEntity<>(isbn, HttpStatus.OK);
