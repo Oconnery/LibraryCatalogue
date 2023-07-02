@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.catalogue.dao.BookDao;
 import com.library.catalogue.dto.inbound.AuthorDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
+import com.library.catalogue.dto.inbound.PublicationYearDto;
 import com.library.catalogue.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -60,6 +61,13 @@ public class BookService {
 
     public ResponseEntity<List<Book>> getBooksByAuthor(AuthorDto authorDto) {
         return new ResponseEntity<>(bookDao.findByAuthorFirstNameAndAuthorLastName(authorDto.getAuthorFirstName(), authorDto.getAuthorLastName()), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Book>> getBooksInPublicationRange(PublicationYearDto publicationYearDto) {
+        return new ResponseEntity<>(bookDao.findByPublicationYearBetween(
+                publicationYearDto.getFromPublicationYear(),
+                publicationYearDto.getToPublicationYear()
+        ), HttpStatus.OK);
     }
 
     private void mapBookEditDtoToBook(BookEditDto bookEditDto, Book book) throws JsonMappingException {
