@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.catalogue.dao.BookDao;
+import com.library.catalogue.dto.inbound.AuthorDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,6 +56,10 @@ public class BookService {
         mapBookEditDtoToBook(bookEditDto, book);
         bookDao.save(book);
         return new ResponseEntity<>(isbn, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Book>> getBooksByAuthor(AuthorDto authorDto) {
+        return new ResponseEntity<>(bookDao.findByAuthorFirstNameAndAuthorLastName(authorDto.getAuthorFirstName(), authorDto.getAuthorLastName()), HttpStatus.OK);
     }
 
     private void mapBookEditDtoToBook(BookEditDto bookEditDto, Book book) throws JsonMappingException {
