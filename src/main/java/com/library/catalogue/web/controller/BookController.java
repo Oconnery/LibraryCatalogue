@@ -22,4 +22,9 @@ public class BookController {
     public ResponseEntity<Long> addBook(@RequestBody Book book) {
         return bookService.addBook(book);
     }
+
+    @DeleteMapping("/delete/{isbn}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long isbn) {
+        return bookService.deleteBook(isbn);
+    }
 }
