@@ -28,7 +28,7 @@ public class BookService {
 
     public ResponseEntity<Book> getBook(Long isbn) {
         Optional<Book> book = bookDao.findById(isbn);
-        return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseThrow(() -> new ResourceNotFoundException("Book not found for this isbn: " + isbn));
+        return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
     }
 
     public ResponseEntity<Long> addBook(Book book) {
@@ -53,7 +53,7 @@ public class BookService {
 
     public ResponseEntity<Long> editBook(BookEditDto bookEditDto) throws JsonMappingException {
         Long isbn = bookEditDto.getIsbn();
-        Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("Book not found for this isbn: " + isbn));
+        Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
         mapBookEditDtoToBook(bookEditDto, book);
         bookDao.save(book);
         return new ResponseEntity<>(isbn, HttpStatus.OK);
