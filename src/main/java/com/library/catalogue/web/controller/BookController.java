@@ -1,6 +1,5 @@
 package com.library.catalogue.web.controller;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.library.catalogue.dto.inbound.AuthorDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.dto.inbound.PublicationYearDto;
@@ -40,7 +39,7 @@ public class BookController {
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<Long> editBook(@RequestBody BookEditDto bookEditDto) throws JsonMappingException {
+    public ResponseEntity<Long> editBook(@RequestBody BookEditDto bookEditDto) {
         return bookService.editBook(bookEditDto);
     }
 

@@ -1,13 +1,12 @@
 package com.library.catalogue.service;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.catalogue.dao.BookDao;
 import com.library.catalogue.dto.inbound.AuthorDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.dto.inbound.PublicationYearDto;
+import com.library.catalogue.mappers.BookMapper;
 import com.library.catalogue.model.Book;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,11 +19,10 @@ import java.util.Optional;
 @Service
 public class BookService {
 
-    @Autowired
-    private BookDao bookDao;
+    public BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
 
     @Autowired
-    private ObjectMapper dtoToModelMapper;
+    private BookDao bookDao;
 
     public ResponseEntity<Book> getBook(Long isbn) {
         Optional<Book> book = bookDao.findById(isbn);
@@ -51,12 +49,12 @@ public class BookService {
         }
     }
 
-    public ResponseEntity<Long> editBook(BookEditDto bookEditDto) throws JsonMappingException {
+    public ResponseEntity<Long> editBook(BookEditDto bookEditDto) {
         Long isbn = bookEditDto.getIsbn();
         Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
-        mapBookEditDtoToBook(bookEditDto, book);
+        mapBookEditDtoToBook(book, bookEditDto);
         bookDao.save(book);
-        return new ResponseEntity<>(isbn, HttpStatus.OK);
+        return new ResponseEntity<>(book.getIsbn(), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Book>> getBooksByAuthor(AuthorDto authorDto) {
@@ -70,8 +68,7 @@ public class BookService {
         ), HttpStatus.OK);
     }
 
-    private void mapBookEditDtoToBook(BookEditDto bookEditDto, Book book) throws JsonMappingException {
-        dtoToModelMapper.setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL);
-        dtoToModelMapper.updateValue(book, bookEditDto);
+    private void mapBookEditDtoToBook(Book book, BookEditDto bookEditDto) {
+        bookMapper.updateBookFromEditDto(book, bookEditDto);
     }
 }
