@@ -5,6 +5,8 @@ import com.library.catalogue.dto.inbound.AuthorDto;
 import com.library.catalogue.dto.inbound.BookCreationDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.dto.inbound.PublicationYearDto;
+import com.library.catalogue.exception.custom.BookIsAlreadyBorrowedException;
+import com.library.catalogue.exception.custom.BookIsNotBorrowedException;
 import com.library.catalogue.mappers.BookMapper;
 import com.library.catalogue.model.Book;
 import org.mapstruct.factory.Mappers;
@@ -13,7 +15,6 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -24,8 +25,7 @@ public class BookService {
     private BookDao bookDao;
 
     public Book getBook(Long isbn) {
-        Optional<Book> book = bookDao.findById(isbn);
-        return book.orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
+        return bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
     }
 
     public List<Book> getBooksByAuthor(AuthorDto authorDto) {
@@ -52,7 +52,7 @@ public class BookService {
 
     public Long editBook(BookEditDto bookEditDto) {
         Long isbn = bookEditDto.getIsbn();
-        Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
+        Book book = getBook(isbn);
         bookMapper.updateBookFromEditDto(book, bookEditDto);
         bookDao.save(book);
         return isbn;
@@ -60,5 +60,25 @@ public class BookService {
 
     public boolean isbnExists(Long isbn) {
         return bookDao.existsById(isbn);
+    }
+
+    public Long borrowBook(Long isbn) {
+        Book book = getBook(isbn);
+        if (book.getIsBorrowed())
+            throw new BookIsAlreadyBorrowedException("isbn" + isbn);
+        else {
+            book.setIsBorrowed(true);
+            return bookDao.save(book).getIsbn();
+        }
+    }
+
+    public Long returnBook(Long isbn) {
+        Book book = getBook(isbn);
+        if (!book.getIsBorrowed())
+            throw new BookIsNotBorrowedException("isbn" + isbn);
+        else {
+            book.setIsBorrowed(false);
+            return bookDao.save(book).getIsbn();
+        }
     }
 }
