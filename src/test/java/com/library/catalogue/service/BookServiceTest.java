@@ -39,6 +39,7 @@ class BookServiceTest {
         testBook.setAuthorFirstName("authFirstName");
         testBook.setAuthorLastName("authLastName");
         testBook.setPublicationYear(2000);
+        testBook.setIsBorrowed(false);
     }
 
     private BookCreationDto getBookCreationDto() {
@@ -48,6 +49,7 @@ class BookServiceTest {
                 .authorFirstName("authFirstName")
                 .authorLastName("authLastName")
                 .publicationYear(2000)
+                .isBorrowed(false)
                 .build();
     }
 
@@ -74,7 +76,7 @@ class BookServiceTest {
 
     @Test
     void testBookMapperMapsCreationDtoToModelCorrectly() {
-        Book book = bookService.bookMapper.updateBookFromCreationDto(getBookCreationDto());
+        Book book = bookService.bookMapper.mapToBookFromCreationDto(getBookCreationDto());
         assertEquals(testBook, book);
     }
 
@@ -89,6 +91,7 @@ class BookServiceTest {
         alteredBookExpectation.setAuthorFirstName("newFirstName");
         alteredBookExpectation.setAuthorLastName("newLastName");
         alteredBookExpectation.setPublicationYear(2000);
+        alteredBookExpectation.setIsBorrowed(false);
 
         assertEquals(alteredBookExpectation, testBook);
     }

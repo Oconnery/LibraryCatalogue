@@ -37,7 +37,7 @@ public class BookService {
     }
 
     public Long addBook(BookCreationDto bookCreationDto) {
-        Book book = bookMapper.updateBookFromCreationDto(bookCreationDto);
+        Book book = bookMapper.mapToBookFromCreationDto(bookCreationDto);
         bookDao.save(book);
         return book.getIsbn();
     }

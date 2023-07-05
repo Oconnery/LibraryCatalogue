@@ -16,4 +16,5 @@ public class BookEditDto {
     private String authorLastName;
     @ValidateYearFormat
     private Integer publicationYear;
+    private Boolean isBorrowed;
 }
