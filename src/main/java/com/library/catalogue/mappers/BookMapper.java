@@ -1,5 +1,6 @@
 package com.library.catalogue.mappers;
 
+import com.library.catalogue.dto.inbound.BookCreationDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.model.Book;
 import org.mapstruct.Mapper;
@@ -11,4 +12,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface BookMapper {
 
     void updateBookFromEditDto(@MappingTarget Book book, BookEditDto bookEditDto);
+
+    Book updateBookFromCreationDto(BookCreationDto bookCreationDto);
 }

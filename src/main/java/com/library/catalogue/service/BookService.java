@@ -2,6 +2,7 @@ package com.library.catalogue.service;
 
 import com.library.catalogue.dao.BookDao;
 import com.library.catalogue.dto.inbound.AuthorDto;
+import com.library.catalogue.dto.inbound.BookCreationDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
 import com.library.catalogue.dto.inbound.PublicationYearDto;
 import com.library.catalogue.mappers.BookMapper;
@@ -29,15 +30,10 @@ public class BookService {
         return book.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
     }
 
-    public ResponseEntity<Long> addBook(Book book) {
-        Long isbn = book.getIsbn();
-
-        if (bookDao.existsById(isbn)) {
-            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
-        } else {
-            bookDao.save(book);
-            return new ResponseEntity<>(isbn, HttpStatus.CREATED);
-        }
+    public ResponseEntity<Long> addBook(BookCreationDto bookCreationDto) {
+        Book book = bookMapper.updateBookFromCreationDto(bookCreationDto);
+        bookDao.save(book);
+        return new ResponseEntity<>(book.getIsbn(), HttpStatus.CREATED);
     }
 
     public ResponseEntity<Void> deleteBook(Long isbn) {
@@ -52,7 +48,7 @@ public class BookService {
     public ResponseEntity<Long> editBook(BookEditDto bookEditDto) {
         Long isbn = bookEditDto.getIsbn();
         Book book = bookDao.findById(isbn).orElseThrow(() -> new ResourceNotFoundException("isbn: " + isbn));
-        mapBookEditDtoToBook(book, bookEditDto);
+        bookMapper.updateBookFromEditDto(book, bookEditDto);
         bookDao.save(book);
         return new ResponseEntity<>(book.getIsbn(), HttpStatus.OK);
     }
@@ -68,7 +64,7 @@ public class BookService {
         ), HttpStatus.OK);
     }
 
-    private void mapBookEditDtoToBook(Book book, BookEditDto bookEditDto) {
-        bookMapper.updateBookFromEditDto(book, bookEditDto);
+    public boolean isbnExists(Long isbn) {
+        return bookDao.existsById(isbn);
     }
 }
