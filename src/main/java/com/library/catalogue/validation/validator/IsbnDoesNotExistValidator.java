@@ -17,6 +17,8 @@ public class IsbnDoesNotExistValidator implements ConstraintValidator<ValidateIs
 
     @Override
     public boolean isValid(Long isbn, ConstraintValidatorContext context) {
-        return isbn == null && !bookService.isbnExists(isbn);
+        if (isbn == null)
+            return true;
+        else return !bookService.isbnExists(isbn);
     }
 }
