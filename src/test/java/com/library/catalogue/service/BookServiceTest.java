@@ -3,6 +3,8 @@ package com.library.catalogue.service;
 import com.library.catalogue.dao.BookDao;
 import com.library.catalogue.dto.inbound.BookCreationDto;
 import com.library.catalogue.dto.inbound.BookEditDto;
+import com.library.catalogue.exception.custom.BookIsAlreadyBorrowedException;
+import com.library.catalogue.exception.custom.BookIsNotBorrowedException;
 import com.library.catalogue.model.Book;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +41,7 @@ class BookServiceTest {
         testBook.setAuthorFirstName("authFirstName");
         testBook.setAuthorLastName("authLastName");
         testBook.setPublicationYear(2000);
+        testBook.setIsBorrowed(false);
     }
 
     private BookCreationDto getBookCreationDto() {
@@ -48,6 +51,7 @@ class BookServiceTest {
                 .authorFirstName("authFirstName")
                 .authorLastName("authLastName")
                 .publicationYear(2000)
+                .isBorrowed(false)
                 .build();
     }
 
@@ -74,7 +78,7 @@ class BookServiceTest {
 
     @Test
     void testBookMapperMapsCreationDtoToModelCorrectly() {
-        Book book = bookService.bookMapper.updateBookFromCreationDto(getBookCreationDto());
+        Book book = bookService.bookMapper.mapToBookFromCreationDto(getBookCreationDto());
         assertEquals(testBook, book);
     }
 
@@ -89,6 +93,7 @@ class BookServiceTest {
         alteredBookExpectation.setAuthorFirstName("newFirstName");
         alteredBookExpectation.setAuthorLastName("newLastName");
         alteredBookExpectation.setPublicationYear(2000);
+        alteredBookExpectation.setIsBorrowed(false);
 
         assertEquals(alteredBookExpectation, testBook);
     }
@@ -103,5 +108,19 @@ class BookServiceTest {
     void testEditBookThrowsExceptionWhenFindBookReturnsNull() {
         when(bookDao.findById(anyLong())).thenReturn(null);
         assertThrows(ResourceNotFoundException.class, () -> bookService.deleteBook(9234567890L));
+    }
+
+    @Test
+    void testBorrowBookThrowsExceptionIfBookIsAlreadyBorrowed() {
+        testBook.setIsBorrowed(true);
+        when(bookDao.findById(anyLong())).thenReturn(Optional.of(testBook));
+        assertThrows(BookIsAlreadyBorrowedException.class, () -> bookService.borrowBook(1234567890L));
+    }
+
+    @Test
+    void testReturnBookThrowsExceptionIfBookIsNotAlreadyBorrowed() {
+        testBook.setIsBorrowed(false);
+        when(bookDao.findById(anyLong())).thenReturn(Optional.of(testBook));
+        assertThrows(BookIsNotBorrowedException.class, () -> bookService.returnBook(1234567890L));
     }
 }

@@ -14,4 +14,5 @@ public class Book {
     private String authorFirstName;
     private String authorLastName;
     private Integer publicationYear;
+    private Boolean isBorrowed;
 }

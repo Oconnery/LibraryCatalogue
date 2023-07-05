@@ -19,4 +19,5 @@ public class BookCreationDto {
     @NotEmpty(message = "author last name required")
     private String authorLastName;
     private Integer publicationYear;
+    private Boolean isBorrowed;
 }

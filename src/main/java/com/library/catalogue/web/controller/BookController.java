@@ -41,16 +41,28 @@ public class BookController {
         return bookService.getBooksInPublicationRange(publicationYearDto);
     }
 
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long addBook(@Valid @RequestBody BookCreationDto bookCreationDto) {
-        return bookService.addBook(bookCreationDto);
+    @PatchMapping("/borrow/{isbn}")
+    @ResponseStatus(HttpStatus.OK)
+    public Long borrowBook(@ValidateIsbnFormat @PathVariable Long isbn) {
+        return bookService.borrowBook(isbn);
+    }
+
+    @PatchMapping("/return/{isbn}")
+    @ResponseStatus(HttpStatus.OK)
+    public Long returnBook(@ValidateIsbnFormat @PathVariable Long isbn) {
+        return bookService.returnBook(isbn);
     }
 
     @PatchMapping("/edit")
     @ResponseStatus(HttpStatus.OK)
     public Long editBook(@Valid @RequestBody BookEditDto bookEditDto) {
         return bookService.editBook(bookEditDto);
+    }
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Long addBook(@Valid @RequestBody BookCreationDto bookCreationDto) {
+        return bookService.addBook(bookCreationDto);
     }
 
     @DeleteMapping("/delete/{isbn}")

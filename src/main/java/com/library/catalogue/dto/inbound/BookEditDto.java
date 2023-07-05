@@ -2,7 +2,6 @@ package com.library.catalogue.dto.inbound;
 
 import com.library.catalogue.validation.constraint.ValidateIsbnFormat;
 import com.library.catalogue.validation.constraint.ValidateYearFormat;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,4 +15,5 @@ public class BookEditDto {
     private String authorLastName;
     @ValidateYearFormat
     private Integer publicationYear;
+    private Boolean isBorrowed;
 }

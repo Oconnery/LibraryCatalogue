@@ -13,5 +13,5 @@ public interface BookMapper {
 
     void updateBookFromEditDto(@MappingTarget Book book, BookEditDto bookEditDto);
 
-    Book updateBookFromCreationDto(BookCreationDto bookCreationDto);
+    Book mapToBookFromCreationDto(BookCreationDto bookCreationDto);
 }
