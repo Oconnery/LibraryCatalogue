@@ -9,7 +9,7 @@ import com.library.catalogue.service.BookService;
 import com.library.catalogue.validation.constraint.ValidateIsbnFormat;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,32 +24,38 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/{isbn}")
-    public ResponseEntity<Book> getBook(@ValidateIsbnFormat @PathVariable Long isbn) {
+    @ResponseStatus(HttpStatus.OK)
+    public Book getBook(@ValidateIsbnFormat @PathVariable Long isbn) {
         return bookService.getBook(isbn);
     }
 
     @GetMapping("/author")
-    public ResponseEntity<List<Book>> getBooksByAuthor(@Valid @RequestBody AuthorDto authorDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Book> getBooksByAuthor(@Valid @RequestBody AuthorDto authorDto) {
         return bookService.getBooksByAuthor(authorDto);
     }
 
     @GetMapping("/publication-year/between")
-    public ResponseEntity<List<Book>> getBooksInPublicationRange(@Valid @RequestBody PublicationYearDto publicationYearDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Book> getBooksInPublicationRange(@Valid @RequestBody PublicationYearDto publicationYearDto) {
         return bookService.getBooksInPublicationRange(publicationYearDto);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Long> addBook(@Valid @RequestBody BookCreationDto bookCreationDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Long addBook(@Valid @RequestBody BookCreationDto bookCreationDto) {
         return bookService.addBook(bookCreationDto);
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<Long> editBook(@Valid @RequestBody BookEditDto bookEditDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public Long editBook(@Valid @RequestBody BookEditDto bookEditDto) {
         return bookService.editBook(bookEditDto);
     }
 
     @DeleteMapping("/delete/{isbn}")
-    public ResponseEntity<Void> deleteBook(@PathVariable @ValidateIsbnFormat Long isbn) {
-        return bookService.deleteBook(isbn);
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteBook(@PathVariable @ValidateIsbnFormat Long isbn) {
+        bookService.deleteBook(isbn);
     }
 }
