@@ -10,11 +10,7 @@ public class IsbnDoesNotExistValidator implements ConstraintValidator<ValidateIs
 
     @Autowired
     BookService bookService;
-
-    @Override
-    public void initialize(ValidateIsbnDoesNotExistAlready constraintAnnotation) {
-    }
-
+    
     @Override
     public boolean isValid(Long isbn, ConstraintValidatorContext context) {
         if (isbn == null)
