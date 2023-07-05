@@ -1,14 +1,14 @@
 package com.library.catalogue.dto.inbound;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
-@Builder
 @Data
+@Builder
 public class AuthorDto {
-    @NonNull
+    @NotEmpty(message = "author first name required.")
     private String authorFirstName;
-    @NonNull
+    @NotEmpty(message = "author last name required.")
     private String authorLastName;
 }
