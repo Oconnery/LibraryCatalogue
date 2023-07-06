@@ -11,9 +11,9 @@ import lombok.Data;
 @JsonDeserialize(builder = AuthorDto.AuthorDtoBuilder.class)
 public class AuthorDto {
     @JsonProperty
-    @NotEmpty(message = "author first name required.")
+    @NotEmpty(message = "authorFirstName required.")
     private String authorFirstName;
     @JsonProperty
-    @NotEmpty(message = "author last name required.")
+    @NotEmpty(message = "authorLastName required.")
     private String authorLastName;
 }
