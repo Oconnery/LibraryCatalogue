@@ -63,5 +63,5 @@ Setting up IDE:
 Using Postman:
 -	Select get/post/delete/patch according to the controller endpoint method you want to hit.
 -	In the uri text box, type http://localhost:8080/ followed by the uri of the endpoint you want to hit, e.g. type http://localhost:8080/api/library/books/publication-year/between.
--	If a pathvariable is required then supply it 
--	If a body is required then
+-	If a pathvariable is required then supply it in the uri.
+-	If a body is required then make sure to include the required Dto contents at a minimum, as described in the parameters of the controller. Ensure the body is JSON by selecting raw bullet point, dopdown Text > json.
