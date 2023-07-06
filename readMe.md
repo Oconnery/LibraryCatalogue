@@ -1,3 +1,5 @@
+Rest API created with the Spring Boot framework and Java 17.
+
 Prerequisites:
 -	Install IntelliJ (or another Java IDE)
 -	Download Java JDK compatible with Java 17. https://www.oracle.com/uk/java/technologies/downloads/#jdk20-windows 
