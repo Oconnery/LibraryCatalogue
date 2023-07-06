@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.library.catalogue.validation.constraint.ValidateIsbnDoesNotExistAlready;
 import com.library.catalogue.validation.constraint.ValidateIsbnFormat;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,13 +21,15 @@ public class BookCreationDto {
     @NotEmpty(message = "title required")
     private String title;
     @JsonProperty
-    @NotEmpty(message = "author first name required")
+    @NotEmpty(message = "authorFirstName required")
     private String authorFirstName;
     @JsonProperty
-    @NotEmpty(message = "author last name required")
+    @NotEmpty(message = "authorLastName required")
     private String authorLastName;
     @JsonProperty
+    @NotNull
     private Integer publicationYear;
     @JsonProperty
+    @NotNull
     private Boolean isBorrowed;
 }
