@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonDeserialize(builder = PublicationYearDto.PublicationYearDtoBuilder.class)
+@JsonDeserialize(builder = BookCreationDto.BookCreationDtoBuilder.class)
 public class BookCreationDto {
     @ValidateIsbnFormat
     @ValidateIsbnDoesNotExistAlready

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-@JsonDeserialize(builder = PublicationYearDto.PublicationYearDtoBuilder.class)
+@JsonDeserialize(builder = AuthorDto.AuthorDtoBuilder.class)
 public class AuthorDto {
     @JsonProperty
     @NotEmpty(message = "author first name required.")
