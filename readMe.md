@@ -56,7 +56,7 @@ Setting up IDE:
     o	The value of password is the password you created whilst creating the database. If you did not make a password then you can leave this blank. It is also in the properties of the server on pgAdmin.
 -	Click “apply” and then click “ok”.
 -	Click on the run button to the top right or use shortcut shift+f10 to run the application. It should start.
--	Now, we can hit the endpoints in the controller using postma. The paths to hit and the data required are described in the BookController class.
+-	Now, we can hit the endpoints in the controller using postman. The paths to hit and the data required are described in the BookController class.
     o	example file path is as follows:
     o	http://localhost:8080/api/library/books/add/
 
